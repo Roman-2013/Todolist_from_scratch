@@ -19,4 +19,7 @@
 .is-done {
   opacity: 0.5;
 }
-
+.container{
+  display: flex;
+  align-items: center;
+}
