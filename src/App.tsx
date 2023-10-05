@@ -43,6 +43,7 @@ function App() {
             [todolistID2]: [
                 {id: v1(), title: 'Rest API', isDone: true},
                 {id: v1(), title: 'GraphQL', isDone: false},
+                {id: v1(), title: 'ajax', isDone: false},
             ],
         }
     )
@@ -53,34 +54,27 @@ function App() {
         setTodolists([...todolists, newTodolist])
         setTasks({...tasks, [todolistID]: []})
     }
-
-
     const removeTodolist = (todoId: string) => {
         setTodolists(todolists.filter(el => el.id !== todoId))
         delete tasks[todoId]
         setTasks({...tasks})
     }
-
     const changeTodolistTitle = (todoId: string, newTitle: string) => {
         setTodolists(todolists.map(el => el.id === todoId ? {...el, title: newTitle} : el))
     }
-
-    const removeTask = (id: string, todoId: string) => {
-        setTasks({...tasks, [todoId]: tasks[todoId].filter(el => el.id !== id)})
-    }
-
-
     const changeFilter = (filter: FilterValueType, todoId: string) => {
         setTodolists(todolists.map(el => el.id === todoId ? {...el, filter} : el))
     }
 
+
+    const removeTask = (id: string, todoId: string) => {
+        setTasks({...tasks, [todoId]: tasks[todoId].filter(el => el.id !== id)})
+    }
     const addTask = (title: string, todoId: string) => {
         let newTask = {id: v1(), title, isDone: false}
         setTasks({...tasks, [todoId]: [newTask, ...tasks[todoId]]})
     }
-
     const changeTaskStatus = (idTask: string, isDone: boolean, todoId: string) => {
-        // setTasks([...tasks.map(el => el.id === idTask ? {...el, isDone: isDone} : el)])
         setTasks({...tasks, [todoId]: tasks[todoId].map(el => el.id === idTask ? {...el, isDone} : el)})
     }
     const changeTaskTitle = (idTask: string, title: string, todoId: string) => {
