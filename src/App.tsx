@@ -2,6 +2,7 @@ import React, {useCallback, useState} from 'react';
 import './App.css';
 import {TasksType, Todolist} from './Todolist';
 import {v1} from 'uuid';
+import {AddItemForm} from './AddItemForm';
 
 export type FilterValueType = 'all' | 'active' | 'completed'
 export type ToodolistType = {
@@ -37,11 +38,22 @@ function App() {
         }
     )
 
+    const addTodolist=(title:string)=>{
+        const todolistID=v1()
+        const newTodolist:ToodolistType={id:todolistID,title,filter:'all'}
+        setTodolists([...todolists,newTodolist])
+        setTasks({...tasks,[todolistID]:[]})
+    }
+
 
     const removeTodolist=(todoId:string)=>{
         setTodolists(todolists.filter(el=>el.id!==todoId))
         delete tasks[todoId]
         setTasks({...tasks})
+    }
+
+    const changeTodolistTitle=( todoId: string,newTitle:string)=>{
+        setTodolists(todolists.map(el=>el.id===todoId?{...el,title:newTitle}:el))
     }
 
     const removeTask = (id: string, todoId: string) => {
@@ -61,12 +73,16 @@ function App() {
     const changeTaskStatus = (idTask: string, isDone: boolean, todoId: string) => {
         // setTasks([...tasks.map(el => el.id === idTask ? {...el, isDone: isDone} : el)])
         setTasks({...tasks, [todoId]: tasks[todoId].map(el => el.id === idTask ? {...el, isDone} : el)})
-
+    }
+    const changeTaskTitle = (idTask: string, title: string, todoId: string) => {
+        setTasks({...tasks, [todoId]: tasks[todoId].map(el => el.id === idTask ? {...el, title} : el)})
+        console.log(tasks)
     }
 
 
     return (
         <div className="App">
+            <AddItemForm addItem={addTodolist}/>
             {todolists.map(tl => {
 
                 let taskForTodolist: TasksType[]
@@ -91,6 +107,8 @@ function App() {
                         changeTaskStatus={changeTaskStatus}
                         filter={tl.filter}
                         removeTodolist={removeTodolist}
+                        changeTaskTitle={changeTaskTitle}
+                        changeTodolistTitle={changeTodolistTitle}
                     />
                 )
             })
