@@ -1,10 +1,15 @@
+import Button from '@mui/material/Button';
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
-type AddItemFormPropsType={
-    addItem:(title:string)=>void
+type AddItemFormPropsType = {
+    addItem: (title: string) => void
 }
 
-export const AddItemForm =(props:AddItemFormPropsType) => {
+export const AddItemForm = (props: AddItemFormPropsType) => {
 
     let [title, setTitle] = useState('')
     let [error, setError] = useState<null | string>(null)
@@ -30,14 +35,23 @@ export const AddItemForm =(props:AddItemFormPropsType) => {
     }
     return (
         <div>
-            <input
+            <TextField
+                variant="outlined"
                 onKeyDown={onKeyPressHandler}
                 value={title}
                 onChange={onChangeHandler}
-                className={error ? 'error' : ''}
+                color={'secondary'}
+                error={!!error}
+                helperText={error}
+
             />
-            <button onClick={addItem}>+</button>
-            {error ? <div className={'error-message'}>{error}</div> : ''}
+            <IconButton
+                aria-label="delete"
+                color={'secondary'}
+                onClick={addItem}>
+                <AddRoundedIcon />
+            </IconButton>
+
         </div>
     );
 };
