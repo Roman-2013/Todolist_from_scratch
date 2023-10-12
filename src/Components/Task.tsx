@@ -3,45 +3,42 @@ import Checkbox from '@mui/material/Checkbox';
 import {EditableSpan} from '../EditableSpan';
 import IconButton from '@mui/material/IconButton';
 import BackspaceOutlinedIcon from '@mui/icons-material/BackspaceOutlined';
+import {TasksType} from '../Todolist';
 
 type TaskPropsType = {
-    todoID: string
-    id: string
-    isDone: boolean
-    title: string
+    todolistId: string
+    task:TasksType
     removeTask: (id: string, todoId: string) => void
     changeTaskStatus: (idTask: string, isDone: boolean, todoId: string) => void
     changeTaskTitle: (idTask: string, title: string, todoId: string) => void
 }
 
 export const Task: React.FC<TaskPropsType> = React.memo(({
-                                                             id,
-                                                             isDone,
-                                                             title,
-                                                             todoID,
+                                                             task,
+                                                             todolistId,
                                                              removeTask,
                                                              changeTaskStatus,
                                                              changeTaskTitle
                                                          }) => {
 
     const onClickHandler = () => {
-        removeTask(id, todoID)
+        removeTask(task.id, todolistId)
     }
     const onChangeHandler = (checked: boolean) => {
-        changeTaskStatus(id, checked, todoID)
+        changeTaskStatus(task.id, checked, todolistId)
     }
     const changeTaskInTitle = useCallback((title: string) => {
-        changeTaskTitle(id, title, todoID)
+        changeTaskTitle(task.id, title, todolistId)
     },[changeTaskTitle])
 
     return (
-        <div className={isDone ? 'is-done' : ''} key={id}>
+        <div className={task.isDone ? 'is-done' : ''} key={task.id}>
             <Checkbox
-                checked={isDone}
+                checked={task.isDone}
                 onChange={(e) => onChangeHandler(e.currentTarget.checked)}
                 color={'secondary'}
             />
-            <EditableSpan onChange={changeTaskInTitle} title={title}/>
+            <EditableSpan onChange={changeTaskInTitle} value={task.title}/>
             <IconButton color={'secondary'} onClick={onClickHandler} aria-label="delete">
                 <BackspaceOutlinedIcon/>
             </IconButton>

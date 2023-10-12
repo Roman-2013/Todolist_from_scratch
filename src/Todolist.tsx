@@ -73,7 +73,7 @@ export const Todolist =React.memo( (props: TodolistPropsType) => {
             <div className={'container'}>
                 <h3>
 
-                    <EditableSpan onChange={changeTodolistTitleHandler} title={props.title}/>
+                    <EditableSpan onChange={changeTodolistTitleHandler} value={props.title}/>
 
                     <IconButton color={'secondary'} onClick={removeTodolistHandler} aria-label="delete">
                    <ClearRoundedIcon/>
@@ -85,11 +85,9 @@ export const Todolist =React.memo( (props: TodolistPropsType) => {
                 {taskForTodolist.map(el => {
                     return (
                         <Task
-                            todoID={props.todoId}
-                            id={el.id}
+                            task={el}
+                            todolistId={props.todoId}
                             key={el.id}
-                            isDone={el.isDone}
-                            title={el.title}
                             removeTask={props.removeTask}
                             changeTaskStatus={props.changeTaskStatus}
                             changeTaskTitle={props.changeTaskTitle}
