@@ -3,7 +3,8 @@ import Checkbox from '@mui/material/Checkbox';
 import {EditableSpan} from '../EditableSpan';
 import IconButton from '@mui/material/IconButton';
 import BackspaceOutlinedIcon from '@mui/icons-material/BackspaceOutlined';
-import {TasksType} from '../Todolist';
+import {TasksType} from '../api/tasks-api';
+
 
 type TaskPropsType = {
     todolistId: string
@@ -32,9 +33,9 @@ export const Task: React.FC<TaskPropsType> = React.memo(({
     },[changeTaskTitle])
 
     return (
-        <div className={task.isDone ? 'is-done' : ''} key={task.id}>
+        <div className={task.status ? 'is-done' : ''} key={task.id}>
             <Checkbox
-                checked={task.isDone}
+                checked={!!task.status}
                 onChange={(e) => onChangeHandler(e.currentTarget.checked)}
                 color={'secondary'}
             />

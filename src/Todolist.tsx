@@ -1,23 +1,16 @@
-import React, {ChangeEvent, useCallback} from 'react';
-import {FilterValueType} from './AppWithRedux';
+import React, { useCallback} from 'react';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
 import IconButton from '@mui/material/IconButton';
-
-import Checkbox from '@mui/material/Checkbox';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
-import BackspaceOutlinedIcon from '@mui/icons-material/BackspaceOutlined';
-import {TasksStateType} from './AppWithRedux';
 import {CustomButton} from './Components/Button';
-import Button from '@mui/material/Button';
+import {TaskStatuses, TasksType} from './api/tasks-api';
+import {FilterValueType} from './state/todolists-reducer';
 import {Task} from './Components/Task';
 
 
-export type TasksType = {
-    id: string
-    title: string
-    isDone: boolean
-}
+
+
 
 type TodolistPropsType = {
     todoId: string
@@ -61,9 +54,9 @@ export const Todolist =React.memo( (props: TodolistPropsType) => {
     let taskForTodolist:TasksType[]
 
     if (props.filter === 'active') {
-        taskForTodolist = props.tasks.filter(el => el.isDone !== true)
+        taskForTodolist = props.tasks.filter(el => el.status !== TaskStatuses.Completed)
     } else if (props.filter === 'completed') {
-        taskForTodolist = props.tasks.filter(el => el.isDone !== false)
+        taskForTodolist = props.tasks.filter(el => el.status !== TaskStatuses.New)
     }else{
         taskForTodolist=props.tasks
     }
