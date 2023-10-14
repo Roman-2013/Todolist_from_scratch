@@ -3,14 +3,14 @@ import Checkbox from '@mui/material/Checkbox';
 import {EditableSpan} from '../EditableSpan';
 import IconButton from '@mui/material/IconButton';
 import BackspaceOutlinedIcon from '@mui/icons-material/BackspaceOutlined';
-import {TasksType} from '../api/tasks-api';
+import {TaskStatuses, TasksType} from '../api/tasks-api';
 
 
 type TaskPropsType = {
     todolistId: string
     task:TasksType
     removeTask: (id: string, todoId: string) => void
-    changeTaskStatus: (idTask: string, isDone: boolean, todoId: string) => void
+    changeTaskStatus: (idTask: string, status: TaskStatuses, todoId: string) => void
     changeTaskTitle: (idTask: string, title: string, todoId: string) => void
 }
 
@@ -25,8 +25,8 @@ export const Task: React.FC<TaskPropsType> = React.memo(({
     const onClickHandler = () => {
         removeTask(task.id, todolistId)
     }
-    const onChangeHandler = (checked: boolean) => {
-        changeTaskStatus(task.id, checked, todolistId)
+    const onChangeHandler = (status: boolean) => {
+        changeTaskStatus(task.id, status? TaskStatuses.Completed : TaskStatuses.New, todolistId)
     }
     const changeTaskInTitle = useCallback((title: string) => {
         changeTaskTitle(task.id, title, todolistId)
@@ -35,7 +35,7 @@ export const Task: React.FC<TaskPropsType> = React.memo(({
     return (
         <div className={task.status ? 'is-done' : ''} key={task.id}>
             <Checkbox
-                checked={!!task.status}
+                checked={task.status===TaskStatuses.Completed}
                 onChange={(e) => onChangeHandler(e.currentTarget.checked)}
                 color={'secondary'}
             />

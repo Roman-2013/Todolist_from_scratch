@@ -1,6 +1,4 @@
-import {CreateTodolist, DeleteTodolist, GetTodolists, UpdateTodolistTitle} from '../stories/todolists-api.stories';
 import axios from 'axios';
-import {CreateTasks, DeleteTasks, UpdateTasksTitle} from '../stories/tasks-api.stories';
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/todo-lists/',

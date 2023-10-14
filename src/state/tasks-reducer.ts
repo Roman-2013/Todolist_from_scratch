@@ -2,7 +2,10 @@ import {v1} from 'uuid';
 import {AddTodolistType, RemoveTodolistType} from './todolists-reducer';
 import {TaskStatuses, TasksType} from '../api/tasks-api';
 
- export type TasksStateType=TasksType
+
+export type TasksStateType = {
+    [key: string]: TasksType[]
+}
 
 const initialState={} as TasksStateType
 
@@ -34,10 +37,11 @@ export const tasksReducer = (state: TasksStateType=initialState, action: ActionT
             return {...state, [action.todoID]: [newTask,...state[action.todoID]]}
         }
         case 'CHANGE-TASK-STATUS': {
+
             return {
                 ...state,
                 [action.todoID]: state[action.todoID]
-                    .map(el => el.id === action.taskID ? {...el, isDone: action.newIsDone} : el)
+                    .map(el => el.id === action.taskID ? {...el, status: action.newIsDone} : el)
             }
         }
         case 'CHANGE-TASK-TITLE': {
@@ -63,7 +67,7 @@ export const addTaskAC = (newTitle: string, todoID: string) => {
         type: 'ADD-TASK', newTitle, todoID
     } as const
 }
-export const changeTaskStatusAC = (taskID: string, newIsDone: boolean, todoID: string) => {
+export const changeTaskStatusAC = (taskID: string, newIsDone: TaskStatuses, todoID: string) => {
     return {
         type: 'CHANGE-TASK-STATUS', taskID, newIsDone, todoID
     } as const
