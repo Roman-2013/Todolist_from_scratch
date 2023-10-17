@@ -5,6 +5,7 @@ import {combineReducers, createStore} from 'redux';
 import {tasksReducer} from '../../state/tasks-reducer';
 import {todolistsReducer} from '../../state/todolists-reducer';
 import {v1} from 'uuid';
+import {TaskStatuses} from '../../api/tasks-api';
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
@@ -17,18 +18,24 @@ let todolistID2 = v1()
 
 
 let initialGlobalState  = {
-    todolists: [{id: todolistID1, title: 'What to learn', filter: 'all'},
-        {id: todolistID2, title: 'What to buy', filter: 'all'}],
+    todolists: [{id: todolistID1, title: 'What to learn', filter: 'all',addedDate: '', order: 0},
+        {id: todolistID2, title: 'What to buy', filter: 'all',addedDate: '', order: 0}],
     tasks: {
         [todolistID1]: [
-            {id: v1(), title: 'HTML&CSS', isDone: true},
-            {id: v1(), title: 'JS', isDone: true},
-            {id: v1(), title: 'ReactJS', isDone: false}
+            {id: v1(), title: 'HTML&CSS', status: TaskStatuses.Completed,  description: '', todoListId: todolistID1,
+                deadline: '', addedDate: '', order: 0, priority: 0, startDate: ''},
+            {id: v1(), title: 'JS', status: TaskStatuses.Completed,  description: '', todoListId: todolistID1,
+                deadline: '', addedDate: '', order: 0, priority: 0, startDate: ''},
+            {id: v1(), title: 'ReactJS', status: TaskStatuses.New,  description: '', todoListId: todolistID1,
+                deadline: '', addedDate: '', order: 0, priority: 0, startDate: ''}
         ],
         [todolistID2]: [
-            {id: v1(), title: 'Rest API', isDone: true},
-            {id: v1(), title: 'GraphQL', isDone: false},
-            {id: v1(), title: 'ajax', isDone: false},
+            {id: v1(), title: 'Rest API', status: TaskStatuses.Completed,  description: '', todoListId: todolistID2,
+                deadline: '', addedDate: '', order: 0, priority: 0, startDate: ''},
+            {id: v1(), title: 'GraphQL', status: TaskStatuses.New,  description: '', todoListId: todolistID2,
+                deadline: '', addedDate: '', order: 0, priority: 0, startDate: ''},
+            {id: v1(), title: 'ajax', status: TaskStatuses.New,  description: '', todoListId: todolistID2,
+                deadline: '', addedDate: '', order: 0, priority: 0, startDate: ''},
         ],
     }
 }
