@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {taskAPI} from '../api/tasks-api';
+import {taskAPI, TaskPriority, TaskStatuses} from '../api/tasks-api';
 
 export default {
   title: 'API/tasks'
@@ -7,7 +7,7 @@ export default {
 
 export const GetTasks = () => {
   const [state, setState] = useState<any>(null)
-  const todoID='1620d759-6e2e-4be3-848e-06c28f2cc65a'
+  const todoID='7d44f48e-ec47-41b8-b1f0-598d623fe157'
   useEffect(() => {
     taskAPI.getTasks(todoID)
         .then(res=>{
@@ -19,7 +19,7 @@ export const GetTasks = () => {
 
 export const CreateTasks = () => {
   const [state, setState] = useState<any>(null)
-    const todoID='1620d759-6e2e-4be3-848e-06c28f2cc65a'
+    const todoID='7d44f48e-ec47-41b8-b1f0-598d623fe157'
     const newTaskTitle='My New Task'
   useEffect(() => {
 taskAPI.createTasks(todoID,newTaskTitle)
@@ -33,8 +33,8 @@ taskAPI.createTasks(todoID,newTaskTitle)
 
 export const DeleteTasks = () => {
   const [state, setState] = useState<any>(null)
-    const todoID='1620d759-6e2e-4be3-848e-06c28f2cc65a'
-    const taskID='13766f8b-2f74-48f7-b90a-d61fc7d4061f'
+    const todoID='7d44f48e-ec47-41b8-b1f0-598d623fe157'
+    const taskID='36381e10-1d10-41fc-80bf-6ceb3b18fc8a'
   useEffect(() => {
 taskAPI.deleteTasks(todoID,taskID)
     .then(res=>{
@@ -46,13 +46,21 @@ taskAPI.deleteTasks(todoID,taskID)
 
 export const UpdateTasksTitle = () => {
   const [state, setState] = useState<any>(null)
-    const todoID='1620d759-6e2e-4be3-848e-06c28f2cc65a'
-    const taskID='d19bd55f-1272-40d9-83b9-5d77f415a7f6'
+    const todoID='7d44f48e-ec47-41b8-b1f0-598d623fe157'
+    const taskID='068360a0-ecfa-476f-b5c4-29516ecac9f9'
     const newTaskTitle='11111111111'
   useEffect(() => {
-taskAPI.updateTasksTitle(todoID,taskID,newTaskTitle)
+taskAPI.updateTasks(todoID,taskID, {
+    title: newTaskTitle,
+    description:null,
+    completed: false,
+    status:0,
+    priority: 0,
+    startDate: null,
+    deadline: null
+})
     .then(res=>{
-        console.log(res.data.data.item.title)
+       // console.log(res.data.data.item.title)
         setState(res.data)
     })
   }, [])

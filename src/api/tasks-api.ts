@@ -16,11 +16,21 @@ export const taskAPI = {
     deleteTasks(todoID:string,taskID:string){
         return instance.delete<ResponseType>(`${todoID}/tasks/${taskID}`)
     },
-    updateTasksTitle(todoID:string,taskID:string,newTaskTitle:string){
-        return instance.put<ResponseType<{item:TasksType}>>(`${todoID}/tasks/${taskID}`,{title:newTaskTitle})
+    updateTasks(todoID:string,taskID:string,module:ModuleType){
+        return instance.put<ResponseType<{item:TasksType}>>(`${todoID}/tasks/${taskID}`,{...module})
     },
 }
 
+
+export type ModuleType={
+    title: string
+    description:string|null
+    completed: boolean
+    status:TaskStatuses
+    priority: TaskPriority
+    startDate: string|null
+    deadline: string|null
+}
 
 export enum TaskStatuses{
     New,
@@ -46,6 +56,7 @@ export type TasksType={
     startDate:string|null
     deadline:string|null
     addedDate:string
+    completed:boolean
 }
 
 type getTaskType<T={}> ={
