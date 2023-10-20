@@ -7,8 +7,9 @@ import {CustomButton} from './Components/Button';
 import {TaskStatuses, TasksType} from './api/tasks-api';
 import {FilterValueType} from './state/todolists-reducer';
 import {Task} from './Components/Task';
-import {useAppDispatch} from './state/store';
+import {useAppDispatch} from './app/store';
 import {fetchTaskTC} from './state/tasks-reducer';
+import {RequestStatusType} from './app/app-reducer';
 
 
 
@@ -16,6 +17,7 @@ import {fetchTaskTC} from './state/tasks-reducer';
 
 type TodolistPropsType = {
     todoId: string
+    entityStatus:RequestStatusType
     title: string
     tasks: TasksType[]
     removeTask: (taskId: string, todoId: string) => void
@@ -74,18 +76,19 @@ export const Todolist =React.memo( (props: TodolistPropsType) => {
             <div className={'container'}>
                 <h3>
 
-                    <EditableSpan onChange={changeTodolistTitleHandler} value={props.title}/>
+                    <EditableSpan disabled={props.entityStatus==='loading'} onChange={changeTodolistTitleHandler} value={props.title}/>
 
-                    <IconButton color={'secondary'} onClick={removeTodolistHandler} aria-label="delete">
+                    <IconButton disabled={props.entityStatus==='loading'} color={'secondary'} onClick={removeTodolistHandler} aria-label="delete">
                    <ClearRoundedIcon/>
                     </IconButton>
                 </h3>
-                <AddItemForm addItem={addTask}/>
+                <AddItemForm addItem={addTask} disabled={props.entityStatus==='loading'}/>
             </div>
             <div>
                 {taskForTodolist.map(el => {
                     return (
                         <Task
+                            entityStatus={el.entityStatus}
                             task={el}
                             todolistId={props.todoId}
                             key={el.id}

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {ResponseType} from './tasks-api';
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
@@ -28,11 +29,5 @@ export type TodolistType = {
     order: number
 }
 
-type ResponseType<T={}> ={
-    resultCode: number
-    fieldsErrors:Array<string>
-    messages: Array<string>,
-    data:T
-}
 
 

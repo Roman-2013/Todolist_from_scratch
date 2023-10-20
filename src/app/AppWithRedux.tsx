@@ -1,7 +1,7 @@
 import React, {Reducer, useCallback, useEffect, useReducer, useState} from 'react';
 import './App.css';
-import { Todolist} from './Todolist';
-import {AddItemForm} from './AddItemForm';
+import {Todolist} from '../Todolist';
+import {AddItemForm} from '../AddItemForm';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -16,62 +16,70 @@ import {
     changeTodolistFilterAC,
     changeTodolistTitleAC, createTodolistTC, deleteTodolistTC, fetchTodolistsTC, FilterValueType,
     removeTodolistAC, SetTodolistTypeAC, TodolistDomainType, updateTodolistTitleTC,
-} from './state/todolists-reducer';
+} from '../state/todolists-reducer';
 import {
     addTaskAC,
-     createTasksTC,
+    createTasksTC,
     deleteTasksTC,
     removeTaskAC,
     TasksStateType, updateTasksTC
-} from './state/tasks-reducer';
+} from '../state/tasks-reducer';
 import {useDispatch, useSelector} from 'react-redux';
-import {useAppDispatch, AppRootStateType} from './state/store';
-import {TaskStatuses} from './api/tasks-api';
-import {todolistAPI} from './api/todolist-api';
+import {useAppDispatch, AppRootStateType} from './store';
+import {TaskStatuses} from '../api/tasks-api';
+import {todolistAPI} from '../api/todolist-api';
 import {ThunkDispatch} from 'redux-thunk';
+import LinearProgress from '@mui/material/LinearProgress';
+import {RequestStatusType} from './app-reducer';
+import {ErrorSnackbar} from '../Components/ErrorSnackbar';
 
 function AppWithRedux() {
 
     useEffect(() => {
-      dispatch(fetchTodolistsTC())
+        dispatch(fetchTodolistsTC())
     }, []);
 
-    const todolists=useSelector<AppRootStateType,TodolistDomainType[]>((el)=>el.todolists)
-    const tasks=useSelector<AppRootStateType,TasksStateType>((el)=>el.tasks)
-    const dispatch=useAppDispatch()
+    const todolists = useSelector<AppRootStateType, TodolistDomainType[]>((el) => el.todolists)
+    const tasks = useSelector<AppRootStateType, TasksStateType>((el) => el.tasks)
+    const status = useSelector<AppRootStateType, RequestStatusType>((el) => el.app.status)
+    const error=useSelector<AppRootStateType, string|null>(el=>el.app.error)
+
+    const dispatch = useAppDispatch()
 
 //Todolist
     const addTodolist = useCallback((title: string) => {
         dispatch(createTodolistTC(title))
-    },[])
+    }, [])
     const removeTodolist = useCallback((todoId: string) => {
         dispatch(deleteTodolistTC(todoId))
 
-    },[])
+    }, [])
     const changeTodolistTitle = useCallback((todoId: string, newTitle: string) => {
         dispatch(updateTodolistTitleTC(todoId, newTitle))
-    },[])
-    const changeFilter =useCallback ((filter: FilterValueType, todoId: string) => {
-        dispatch(changeTodolistFilterAC(todoId, filter))},[])
+    }, [])
+    const changeFilter = useCallback((filter: FilterValueType, todoId: string) => {
+        dispatch(changeTodolistFilterAC(todoId, filter))
+    }, [])
 
 
 //Tasks
-    const removeTask =useCallback( (id: string, todoId: string) => {
+    const removeTask = useCallback((id: string, todoId: string) => {
         dispatch(deleteTasksTC(id, todoId))
-    },[])
+    }, [])
     const addTask = useCallback((title: string, todoId: string) => {
         dispatch(createTasksTC(title, todoId))
-    },[])
-    const changeTaskStatus =useCallback( (idTask: string, status: TaskStatuses, todoId: string) => {
-        dispatch(updateTasksTC(todoId,idTask,{status}))
-    },[])
-    const changeTaskTitle =useCallback( (idTask: string, title: string, todoId: string) => {
-        dispatch(updateTasksTC(todoId, idTask,{title} ))
-    },[])
+    }, [])
+    const changeTaskStatus = useCallback((idTask: string, status: TaskStatuses, todoId: string) => {
+        dispatch(updateTasksTC(todoId, idTask, {status}))
+    }, [])
+    const changeTaskTitle = useCallback((idTask: string, title: string, todoId: string) => {
+        dispatch(updateTasksTC(todoId, idTask, {title}))
+    }, [])
 
 
     return (
         <div className="App">
+            {error && <ErrorSnackbar/>}
             <AppBar color={'secondary'} position="static">
                 <Toolbar>
                     <IconButton
@@ -88,6 +96,7 @@ function AppWithRedux() {
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
+                {status === 'loading' && <LinearProgress color="secondary"/>}
             </AppBar>
 
             <Container fixed>
@@ -97,21 +106,12 @@ function AppWithRedux() {
                 <Grid container spacing={3}>
                     {
                         todolists.map(tl => {
-                            //
-                            // let taskForTodolist: TasksType[]
-                            //
-                            // if (tl.filter === 'active') {
-                            //     taskForTodolist = tasks[tl.id].filter(el => el.isDone !== true)
-                            // } else if (tl.filter === 'completed') {
-                            //     taskForTodolist = tasks[tl.id].filter(el => el.isDone !== false)
-                            // } else {
-                            //     taskForTodolist = tasks[tl.id]
-                            // }
 
                             return <Grid key={tl.id} item>
                                 <Paper style={{padding: '10px'}}>
                                     <Todolist
                                         key={tl.id}
+                                        entityStatus={tl.entityStatus}
                                         todoId={tl.id}
                                         title={tl.title}
                                         tasks={tasks[tl.id]}

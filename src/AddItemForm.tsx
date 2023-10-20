@@ -5,6 +5,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
+    disabled?:boolean
 }
 
 export const AddItemForm =React.memo( (props: AddItemFormPropsType) => {
@@ -36,6 +37,7 @@ export const AddItemForm =React.memo( (props: AddItemFormPropsType) => {
     return (
         <div>
             <TextField
+                disabled={props.disabled}
                 variant="outlined"
                 onKeyDown={onKeyPressHandler}
                 value={title}
@@ -46,6 +48,7 @@ export const AddItemForm =React.memo( (props: AddItemFormPropsType) => {
 
             />
             <IconButton
+                disabled={props.disabled}
                 aria-label="delete"
                 color={'secondary'}
                 onClick={addItem}>
