@@ -1,9 +1,4 @@
-import {
-    addTaskAC,
-    removeTaskAC,
-    tasksReducer,
-    TasksStateType, updateTaskAC, updateTasksTC
-} from '../tasks-reducer'
+import {addTaskAC, removeTaskAC, tasksReducer, TasksStateType, updateTaskAC} from '../tasks-reducer'
 import {addTodolistAC, removeTodolistAC} from '../todolists-reducer';
 import {TaskStatuses} from '../../api/tasks-api';
 
@@ -51,25 +46,25 @@ test('correct task should be deleted from correct array', () => {
         'todolistId1': [
             {
                 id: '1', title: 'CSS', status: TaskStatuses.New, description: '', todoListId: 'todolistId1',
-                deadline: '', addedDate: '', order: 0, priority: 0, startDate: '', completed: false
+                deadline: '', addedDate: '', order: 0, priority: 0, startDate: '', completed: false,entityStatus:'idle'
             },
             {
                 id: '2', title: 'JS', status: TaskStatuses.Completed, description: '', todoListId: 'todolistId1',
-                deadline: '', addedDate: '', order: 0, priority: 0, startDate: '', completed: false
+                deadline: '', addedDate: '', order: 0, priority: 0, startDate: '', completed: false,entityStatus:'idle'
             },
             {
                 id: '3', title: 'React', status: TaskStatuses.New, description: '', todoListId: 'todolistId1',
-                deadline: '', addedDate: '', order: 0, priority: 0, startDate: '', completed: false
+                deadline: '', addedDate: '', order: 0, priority: 0, startDate: '', completed: false,entityStatus:'idle'
             }
         ],
         'todolistId2': [
             {
                 id: '1', title: 'bread', status: TaskStatuses.New, description: '', todoListId: 'todolistId2',
-                deadline: '', addedDate: '', order: 0, priority: 0, startDate: '', completed: false
+                deadline: '', addedDate: '', order: 0, priority: 0, startDate: '', completed: false,entityStatus:'idle'
             },
             {
                 id: '3', title: 'tea', status: TaskStatuses.New, description: '', todoListId: 'todolistId2',
-                deadline: '', addedDate: '', order: 0, priority: 0, startDate: '', completed: false
+                deadline: '', addedDate: '', order: 0, priority: 0, startDate: '', completed: false,entityStatus:'idle'
             }
         ]
     })

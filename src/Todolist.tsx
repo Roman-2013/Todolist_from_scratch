@@ -7,9 +7,11 @@ import {CustomButton} from './Components/Button';
 import {TaskStatuses, TasksType} from './api/tasks-api';
 import {FilterValueType} from './state/todolists-reducer';
 import {Task} from './Components/Task';
-import {useAppDispatch} from './app/store';
+import {AppRootStateType, useAppDispatch} from './app/store';
 import {fetchTaskTC} from './state/tasks-reducer';
 import {RequestStatusType} from './app/app-reducer';
+import {useSelector} from 'react-redux';
+import {Navigate} from 'react-router-dom';
 
 
 
@@ -33,6 +35,10 @@ type TodolistPropsType = {
 
 export const Todolist =React.memo( (props: TodolistPropsType) => {
     console.log('Todolist called')
+
+    const isLoggedIn=useSelector<AppRootStateType,boolean>(el=>el.auth.isLoggedIn)
+
+
 
     const dispatch=useAppDispatch()
 
@@ -70,6 +76,8 @@ export const Todolist =React.memo( (props: TodolistPropsType) => {
     }else{
         taskForTodolist=props.tasks
     }
+
+
 
     return (
         <div>
